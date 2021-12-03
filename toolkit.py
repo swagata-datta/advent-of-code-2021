@@ -9,3 +9,4 @@ def inputfile(directory, lines = True):
 		return [x.strip() for x in file]  # getting rid of the new line expresssion
 	else:
 		return  open(directory).read().strip()
+

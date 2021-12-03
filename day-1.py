@@ -5,6 +5,7 @@ Day 1:'''
 from toolkit import *
 
 input = inputfile('input_files\day_1.txt')
+input = [int(i) for i in input]
 
 testcase = '''199
 200
@@ -30,8 +31,25 @@ def larger_than_prev_count(input_):
 
 assert larger_than_prev_count(testcase) == 7
 
-input = [int(i) for i in input]
 
-print(larger_than_prev_count(input))
+######################
+#part 2
+######################
 
+def make_slide_list(list_):
+    """takes in a list of number and creates a new list according to the sliding rule"""
+    new_list = []
+    for i in range(len(list_)-2):
+        new_list.append(list_[i]+list_[i+1]+list_[i+2])
+
+    return new_list
+
+assert larger_than_prev_count(make_slide_list(testcase)) == 5
+
+
+def main():
+    print('Part 1:', larger_than_prev_count(input))
+    print('Part 2:', larger_than_prev_count(make_slide_list(input)))
+
+main()
 

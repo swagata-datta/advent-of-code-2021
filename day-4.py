@@ -35,6 +35,7 @@ def test():
     
     assert start_bingo(boards, seq) == 4512
 
+    print(part_two_bingo(boards, seq))
 
 def treat_input(inp):
     
@@ -100,11 +101,34 @@ def get_score(board, num):
     final = score * num
     return final
 
+def part_two_bingo(boards, sequence, score_list = []):
+    boards_ = boards.copy()
+    
+    if len(sequence) == 0:
+        return score_list[-1]
+    seq = list(reversed(sequence))
+    num = seq[-1]
+    
+    seq.pop()
+    
+    for i in range(len(boards)):
+        boards_[i] = bingo_call(num, boards[i])
+    
+    new_boards = [board for board in boards_ if check_board(board) != True]
+    
+    for i in range(len(boards)):
+        if check_board(boards_[i]):
+            score = get_score(boards_[i], num)
+            score_list.append(score)
+    return part_two_bingo(new_boards, list(reversed(seq)), score_list)
+
+
 def main():
     input = inputfile('input_files/day_4.txt')
     input = treat_input(input)
 
-    print(start_bingo(get_boards(input), get_seq(input)))
+    print('part 1:', start_bingo(get_boards(input), get_seq(input)))
+    print('part 2:', part_two_bingo(get_boards(input), get_seq(input)))
 
 test()
 main()

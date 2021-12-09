@@ -4,6 +4,7 @@ Swagata"""
 
 import collections
 from toolkit import *
+import re
 
 assert binary_to_decimal('10110') == 22
 assert binary_to_decimal('01001') == 9

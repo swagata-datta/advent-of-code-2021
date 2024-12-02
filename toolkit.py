@@ -1,7 +1,7 @@
 '''
 Building my own toolkit
 '''
-
+from collections import defaultdict
 import numpy as np
 
 def inputfile(directory, lines = True):
@@ -44,7 +44,7 @@ def get_neighbors(x, y, arr):
 	neighbor = [arr[x, y +1], arr[x,y-1], arr[x-1,y],arr[x+1,y]]
 	return neighbor
 
-def all_neighbors(x,y,arr):
+def all_neighbors(x,y):
 	"""Returns all neighbors including diagonals"""
 	neighbors = []
 	for i in [-1,0,1]:
@@ -53,13 +53,25 @@ def all_neighbors(x,y,arr):
 	neighbors = [i for i in neighbors if i != (x,y)]
 	return neighbors	
 
+def neighbor_coord(x,y, arr):
+	"""returns a list of neighbor coordinates, not diagonals"""
+	neighbor = []
+	row, col = arr.shape[0], arr.shape[1]
+	if x + 1 < row:
+		neighbor.append((x+1, y))
+	if x > 0:
+		neighbor.append((x-1, y))
+	if y + 1 < col:
+		neighbor.append((x, y+1))
+	if y > 0:
+		neighbor.append((x, y-1))
+	return neighbor
 
 def array_value(postiion, arr):
     """Returns the value at an array from the tuple"""
     row, col = postiion[0], postiion[1]
     value = arr[row, col]
     return value
-
 
 def add_padding(arr, x):
 	"""adds a layer of padding around arr with x"""
@@ -68,4 +80,24 @@ def add_padding(arr, x):
 	new_arr[1:rows+1,1:columns+1] = arr
 	return new_arr
 
+### graph stuff
 
+def get_edges_from_arr(arr):
+	"""Creates a list of edges"""
+	rows, columns = arr.shape[0], arr.shape[1]
+	edeges = []
+	for row in range(rows):
+		for col in range(columns):
+			if row > 0:
+				tup = ((row, col), (row - 1, col))
+				edeges.append(tup)
+			if row + 1 < rows:
+				tup = ((row, col), (row + 1, col))
+				edeges.append(tup)
+			if col > 0:
+				tup = ((row, col), (row, col-1))
+				edeges.append(tup)
+			if col + 1 < columns:
+				tup = ((row, col), (row, col+1))
+				edeges.append(tup)
+	return edeges

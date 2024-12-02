@@ -45,6 +45,11 @@ class Graph:
         return all_paths
 
 
+    def dijkstra_arr(self, start):
+        """Gets shortest path in a wighted array from a starting point"""
+        
+
+
 
 
 
